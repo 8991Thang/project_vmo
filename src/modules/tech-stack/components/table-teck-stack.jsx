@@ -1,24 +1,40 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { apiGet } from "../../../api/api";
 import { Loading } from "../../../components/loading/loading";
-import { changePageLimitTechStack } from "../tech-stack.actions";
-import { getListTechStack } from "../tech-stack.services";
-import { PaginationTechStack } from "./pagination-tech-stack";
+import { Pagination } from "../../../components/pagination/pagination";
+import { REACT_APP_API_SERVER_TECH_STACK } from "../../../constants/constants";
+import { LIMIT_TECH_STACK } from "../tech-stack.constans";
 import RowTableTechStack from "./row-table-tech-stack";
 const queryString = require("query-string");
 export const TableTechStack = () => {
-  const { data: listTeckStack } = useSelector(state => state.techStack);
-  const { limit } = useSelector(state => state.techStack);
-  const { page } = useSelector(state => state.techStack);
-  const { loading } = useSelector(state => state.techStack);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [listTeckStack, setListTechStack] = useState([]);
+  const [page, setPage] = useState(1);
+  const getDataTechStack = async () => {
+    setLoading(true);
+    const stringified = queryString.stringify({ limit: LIMIT_TECH_STACK, page });
+    const apiProjectStatus = REACT_APP_API_SERVER_TECH_STACK + "?" + stringified;
+    try {
+      const respon = await apiGet(apiProjectStatus);
+      const { data } = respon.data;
+      const { totalDoc } = data;
+      const convertData = data.record.map(item => {
+        return { ...item, index: data.startIndex++ };
+      });
+      const totalPage = Math.ceil(totalDoc / LIMIT_TECH_STACK);
+      setListTechStack({ data: convertData, totalPage });
+      setLoading(false);
+    }
+    catch (error) {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const stringified = queryString.stringify({ limit, page });
-    dispatch(getListTechStack(stringified));
+    getDataTechStack();
   }, [page]);
   const handleChangePage = e => {
-    const page = e.selected + 1;
-    dispatch(changePageLimitTechStack(page));
+    const numberPage = e.selected + 1;
+    setPage(numberPage);
   };
   return (
     <div className="h-96 sm:w-full ">
@@ -36,20 +52,21 @@ export const TableTechStack = () => {
               </tr>
             </thead>
 
-            {listTeckStack.map((techStack, i) => {
-              return (
-                <RowTableTechStack
-                  link={"/tech-stack/" + techStack._id}
-                  key={i}
-                  number={techStack.index + 1}
-                  type={techStack.name}
-                  description={techStack.description}
-                  status={techStack.status}
-                />
-              );
-            })}
+            {listTeckStack.data &&
+              listTeckStack.data.map((techStack, i) => {
+                return (
+                  <RowTableTechStack
+                    link={"/tech-stack/" + techStack._id}
+                    key={i}
+                    number={techStack.index + 1}
+                    type={techStack.name}
+                    description={techStack.description}
+                    status={techStack.status}
+                  />
+                );
+              })}
           </table>
-          <PaginationTechStack onChange={handleChangePage} />
+          <Pagination totalPage={listTeckStack.totalPage} onChange={handleChangePage} />
         </div>
       )}
     </div>

@@ -7,7 +7,7 @@ import { getListTechStack } from "../../../services/tech-stack.services";
 import { getRoleStaffsStatus } from "../../../services/roles";
 import { FormEditStaff } from "./form-edit-staff";
 import { FormStaffDetail } from "./form-staff-detail";
-import { setLinkRedirect } from "../../../app/statusReducers";
+import { setLinkRedirect } from "../../../reducers/statusReducers";
 
 export const StaffDetailModules = () => {
   const dispatch = useDispatch();
@@ -33,9 +33,13 @@ export const StaffDetailModules = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div>{update ?
-          <FormEditStaff setUpdate={setUpdate} /> :
-          <FormStaffDetail setUpdate={setUpdate} />}</div>
+        <div>
+          {update ? (
+            <FormEditStaff setUpdate={setUpdate} />
+          ) : (
+            <FormStaffDetail setUpdate={setUpdate} />
+          )}
+        </div>
       )}
     </div>
   );

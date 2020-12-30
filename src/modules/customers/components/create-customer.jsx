@@ -1,24 +1,36 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPlus } from "react-icons/bs";
 import { FcAbout } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
-import { setLinkRedirect } from "../../../app/statusReducers";
+import { useHistory } from "react-router-dom";
+import { apiPost } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
 import { TitlePage } from "../../../components/title-page/title-page";
-import { createCustomers } from "../customers.services";
+import { REACT_APP_API_SERVER_CUSTOMERS } from "../../../constants/constants";
 export const CreateNewCustomer = () => {
-  const { loading: loadingCustomers } = useSelector(state => state.customers);
-  const { link: linkCustomers } = useSelector(state => state.customers);
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setLinkRedirect(linkCustomers));
-  }, [linkCustomers]);
-  const onSubmit = dataNewCustomers => {
+  const linkCustomers = "/customers/";
+  const timeoutRedirectThenCreate = 3000;
+  const onSubmit = async dataNewCustomers => {
+    setLoading(true);
     dataNewCustomers.priorityNumber = parseInt(dataNewCustomers.priorityNumber);
-    dispatch(createCustomers(dataNewCustomers));
+    const apiCustomers = REACT_APP_API_SERVER_CUSTOMERS;
+    try {
+      const respon = await apiPost(apiCustomers, dataNewCustomers);
+      if (respon.status === 200) {
+        const idNewPost = respon.data.data.recordId;
+        setLoading(false);
+        setTimeout(() => {
+          history.push(`${linkCustomers + idNewPost}`);
+        }, timeoutRedirectThenCreate);
+      }
+    }
+    catch (error) {
+      setLoading(false);
+    }
   };
   return (
     <div>
@@ -113,7 +125,7 @@ export const CreateNewCustomer = () => {
                       className="bg-white  text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-blue-500 hover:text-white shadow-md py-2 px-6 flex items-center"
                     >
                       {" "}
-                      {loadingCustomers ? (
+                      {loading ? (
                         <LoadingSmallSize />
                       ) : (
                         <div className="flex h-10 items-center">

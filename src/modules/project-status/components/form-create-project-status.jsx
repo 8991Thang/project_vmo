@@ -1,23 +1,32 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPlus } from "react-icons/bs";
 import { FcAbout } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
-import { setLinkRedirect } from "../../../app/statusReducers";
+import { useHistory } from "react-router-dom";
+import { apiPost } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
 import { TitlePage } from "../../../components/title-page/title-page";
-import { createProjectStatus } from "../project-status.services";
+import { REACT_APP_API_SERVER_PROJECT_STATUS } from "../../../constants/constants";
 export const FormCreateProjectStatus = () => {
-  const { loading } = useSelector(state => state.projectStatus);
-  const { link } = useSelector(state => state.projectStatus);
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setLinkRedirect(link));
-  }, [link]);
-  const onSubmit = dataNewProject => {
-    dispatch(createProjectStatus(dataNewProject));
+  const linkCustomers = "/project-status/";
+  const onSubmit = async dataNewProjectStatus => {
+    setLoading(true);
+    const apiCustomers = REACT_APP_API_SERVER_PROJECT_STATUS;
+    try {
+      const respon = await apiPost(apiCustomers, dataNewProjectStatus);
+      if (respon.status === 200) {
+        const idNewPost = respon.data.data.recordId;
+        history.push(`${linkCustomers + idNewPost}`);
+        setLoading(false);
+      }
+    }
+    catch (error) {
+      setLoading(false);
+    }
   };
   return (
     <div>

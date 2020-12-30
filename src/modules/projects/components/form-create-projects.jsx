@@ -7,12 +7,14 @@ import { TitlePage } from "../../../components/title-page/title-page";
 // import { Link,
 //   // , useHistory
 // } from "react-router-dom";
-import { setLinkRedirect } from "../../../app/statusReducers";
+import { setLinkRedirect } from "../../../reducers/statusReducers";
 
 // import { Loading } from "../../../components/loading/loading";
 // import { notifyUpdate } from "../../../utils/notifications-when-update";
 // import { resetStatusProjects } from "../projects.actions";
-import { createProjects, getDaTaTotal,
+import {
+  createProjects,
+  getDaTaTotal,
   //  resetStatusTotal
 } from "../projects.services";
 
@@ -36,7 +38,6 @@ export const FormCreateProjects = () => {
   const dataStaffs = useSelector(state => state.staffs.data);
   const dataProjectStatus = useSelector(state => state.projectStatus.data);
   const dataDepartment = useSelector(state => state.departments.data);
-
 
   const { loading: loadingProjectType } = useSelector(state => state.projectType);
   const { loading: loadingCustomers } = useSelector(state => state.customers);
@@ -227,8 +228,6 @@ export const FormCreateProjects = () => {
                     </button>
                   </div>
                 </div>
-
-
               </div>
             </form>
           </div>

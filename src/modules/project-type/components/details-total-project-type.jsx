@@ -1,21 +1,32 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { apiGet } from "../../../api/api";
 import { Loading } from "../../../components/loading/loading";
-import { getDetailsProjectType } from "../project-type.services";
+import { REACT_APP_API_SERVER_PROJECT_TYPE } from "../../../constants/constants";
 import { FormDetailProjectType } from "./form-detail-project-type";
 import { FormEditProjectType } from "./form-edit-project-type";
 export const DetailsProjectType = () => {
   const [update, setUpdate] = useState(false);
   const [isEditingDone, setIsEditingDone] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [detailsProjectType, setDataDetailsProjectType] = useState([]);
   const params = useParams();
-  const { dataDetails } = useSelector(state => state.projectType);
-  const { loading } = useSelector(state => state.projectType);
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getDetailsProjectType(params.id));
+    getDataDetailsProjectType();
   }, [isEditingDone]);
-
+  const getDataDetailsProjectType = async () => {
+    setLoading(true);
+    const apiProjectType = `${REACT_APP_API_SERVER_PROJECT_TYPE}/${params.id}`;
+    try {
+      const respon = await apiGet(apiProjectType);
+      const { data } = respon.data;
+      setDataDetailsProjectType(data.record);
+      setLoading(false);
+    }
+    catch (error) {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       {loading ? (
@@ -24,13 +35,13 @@ export const DetailsProjectType = () => {
         <div className="sm:flex sm:justify-center">
           {update ? (
             <FormEditProjectType
-              dataDetails={dataDetails.record}
+              dataDetails={detailsProjectType}
               setUpdate={setUpdate}
               setIsEditingDone={setIsEditingDone}
               isEditingDone={isEditingDone}
             />
           ) : (
-            <FormDetailProjectType setUpdate={setUpdate} dataDetails={dataDetails.record} />
+            <FormDetailProjectType setUpdate={setUpdate} dataDetails={detailsProjectType} />
           )}
         </div>
       )}

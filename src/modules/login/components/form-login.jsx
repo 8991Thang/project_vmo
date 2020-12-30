@@ -1,39 +1,38 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import Axios from "axios";
 import { Alert } from "react-st-modal";
-import { getTokenUserLogin } from "../login.services";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { REACT_APP_BASE_URL, REACT_APP_LOGIN_SERVER } from "../../../constants/constants";
 export const FormLogin = () => {
+  const [loading, setLoading] = useState();
   const { register, handleSubmit } = useForm();
-  const { loading: loadingLogin } = useSelector(state => state.token);
-  const { status: statusLogin } = useSelector(state => state.token);
-  const dispatch = useDispatch();
   const history = useHistory();
-  useEffect(() => {
-    if (statusLogin === null) return;
-    if (statusLogin === 200) {
-      redirectThenLogin();
+  const linkRedirectThenlogin = "project-type";
+  const hanleOnSubmit = async dataUserInput => {
+    setLoading(true);
+    try {
+      const serverApiLogin = REACT_APP_LOGIN_SERVER;
+      const loginApi = REACT_APP_BASE_URL + serverApiLogin;
+      const email = dataUserInput.email;
+      const password = dataUserInput.password;
+      const respon = await Axios.post(loginApi, { email, password });
+      const { accessToken } = respon.data.data.token;
+      if (accessToken) {
+        localStorage.setItem("token", accessToken);
+        setLoading(false);
+        history.push(linkRedirectThenlogin);
+      }
     }
-    if (statusLogin === undefined) {
-      checkToken();
-      return;
+    catch (error) {
+      setLoading(false);
+      await Alert("Login failed, try again!", "Notification");
     }
-  }, [statusLogin]);
-  async function checkToken() {
-    await Alert("Error !! Login Try again", "Notication !!");
-  }
-  function redirectThenLogin() {
-    history.push("/project-type");
-    return;
-  }
-  const hanleOnSubmit = dataUserInput => {
-    dispatch(getTokenUserLogin(dataUserInput));
   };
   return (
     <div className="bg-blue-500 h-screen ">
       <div className="flex flex-col items-center flex-1 h-full justify-center px-4 sm:px-0">
-        {loadingLogin ? (
+        {loading ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             style={{ margin: "auto", background: "none" }}

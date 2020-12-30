@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { resetStatus, statusError, statusSuccess } from "../app/statusReducers";
+import { resetStatus, statusError, statusSuccess } from "../reducers/statusReducers";
 import { store } from "../app/store";
 // import { Alert } from "react-st-modal";
 import { REACT_APP_BASE_URL } from "../constants/constants";

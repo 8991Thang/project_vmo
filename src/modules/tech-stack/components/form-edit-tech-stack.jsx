@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
-import { updateTechStack } from "../tech-stack.services";
+import { apiPut } from "../../../api/api";
+import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
+import { REACT_APP_API_SERVER_TECH_STACK } from "../../../constants/constants";
 export const FormEditTechStack = ({
   setUpdate,
   detailsTeckStack,
@@ -10,28 +11,27 @@ export const FormEditTechStack = ({
   isEditingDone,
 }) => {
   const { register: dataForm, handleSubmit } = useForm();
-  const { status: statusRequest } = useSelector(state => state.status);
-  const timeoutThenUpdate = 3000;
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (statusRequest !== 200) return;
-    const timeout = setTimeout(() => {
-      setUpdate(false);
-      setIsEditingDone(!isEditingDone);
-    }, timeoutThenUpdate);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [statusRequest]);
-  const onSubmitupdateTechStack = dataTechStacks => {
+  const [loading, setLoading] = useState(false);
+  const handeleOnSubmitUpdate = async dataTechStack => {
+    setLoading(true);
     const { _id } = detailsTeckStack;
-    dispatch(updateTechStack(_id, dataTechStacks));
+    const apiTechStack = `${REACT_APP_API_SERVER_TECH_STACK}/${_id}`;
+    try {
+      const respon = await apiPut(apiTechStack, dataTechStack);
+      if (respon.status === 200) {
+        setLoading(false);
+        setUpdate(false);
+        setIsEditingDone(!isEditingDone);
+      }
+    }
+    catch (error) {
+      setLoading(false);
+    }
   };
-
   return (
     <div className="w-10/12 sm:w-11/12 sm:mt-15 sm:ml-4 rounded-lg shadow-lg bg-white mt-10 ml-5">
       <div className="flex justify-between border-b border-gray-100  py-4">
-        <form onSubmit={handleSubmit(onSubmitupdateTechStack)} className="w-full">
+        <form onSubmit={handleSubmit(handeleOnSubmitUpdate)} className="w-full">
           <div className="px-10">
             <div className="my-8 lg:my-3">
               <div className="pb-6 md:pb-0 flex flex-col">
@@ -111,7 +111,7 @@ export const FormEditTechStack = ({
                 type="sumbit"
                 className="border font-medium border-green-700 bg-green-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline"
               >
-                UPDATE
+                {loading ? <LoadingSmallSize size={5} /> : <p>UPDATE</p>}
               </button>
             </div>
           </div>

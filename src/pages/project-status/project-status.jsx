@@ -1,6 +1,6 @@
 import { ButtonAddMore } from "../../components/button-add-more/button-add-more";
 import { TitlePage } from "../../components/title-page/title-page";
-import { TableProjectStatus } from "../../modules/project-status/components/table-project-status";
+import { TableProjectStatus } from "../../modules/project-status/components/table-list-project-status";
 
 export const ProjectStatus = () => {
   return (

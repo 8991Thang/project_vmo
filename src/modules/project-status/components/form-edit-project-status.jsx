@@ -1,36 +1,37 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
-import { updateProjectStatus } from "../project-status.services";
+import { apiPut } from "../../../api/api";
+import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
+import { REACT_APP_API_SERVER_PROJECT_STATUS } from "../../../constants/constants";
 export const FormEditProjectStatus = ({
   setEditStatus,
   projectStatusDetails,
   setUpdate,
   update,
 }) => {
-  const dispatch = useDispatch();
   const { register: dataForm, handleSubmit } = useForm();
-  const { status: statusRequest } = useSelector(state => state.status);
-  const timeoutThenUpdate = 3000;
-  useEffect(() => {
-    if (statusRequest !== 200) return;
-    const timeout = setTimeout(() => {
-      setUpdate(!update);
-      setEditStatus(false);
-    }, timeoutThenUpdate);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [statusRequest]);
-  const onSubmitUpdateProjectType = dataProjectStatus => {
+  const [loading, setLoading] = useState(false);
+  const handeleOnSubmitUpdate = async dataProjectStatus => {
+    setLoading(true);
     const { _id } = projectStatusDetails;
-    dispatch(updateProjectStatus(_id, dataProjectStatus));
+    const apiProjectStatus = `${REACT_APP_API_SERVER_PROJECT_STATUS}/${_id}`;
+    try {
+      const respon = await apiPut(apiProjectStatus, dataProjectStatus);
+      if (respon.status === 200) {
+        setLoading(false);
+        setEditStatus(false);
+        setUpdate(!update);
+      }
+    }
+    catch (error) {
+      setLoading(false);
+    }
   };
   return (
     <div className="w-10/12 lg:w-11/12 lg:ml-3 rounded-lg shadow-lg bg-white mt-10 ml-5">
       <div className="flex justify-between border-b border-gray-100  py-4">
-        <form onSubmit={handleSubmit(onSubmitUpdateProjectType)} className="w-full">
+        <form onSubmit={handleSubmit(handeleOnSubmitUpdate)} className="w-full">
           <div className="px-10">
             <div className="my-8 lg:my-3">
               <div className="pb-6 md:pb-0 flex flex-col">
@@ -110,7 +111,7 @@ export const FormEditProjectStatus = ({
                 type="sumbit"
                 className="border font-medium border-green-700 bg-green-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline"
               >
-                UPDATE
+                {loading ? <LoadingSmallSize size={5} /> : <p>UPDATE</p>}
               </button>
             </div>
           </div>

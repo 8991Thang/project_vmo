@@ -23,22 +23,18 @@ function App() {
       <Switch>
         <Route exact path="/login" component={LoginPage} />
         <Redirect from="/" exact to="/login" />
-        <Route
-          render={({ location }) => {
-            return (
-              <div className="App min-h-screen overflow-hidden flex sm:flex-col">
-                <SidebarLeft />
-                <div className="flex flex-col w-10/12 sm:w-full">
-                  <div className="sm:hidden ">
-                    <Navbar />
-                  </div>
-                  <Switch location={location}>{reactRouter()}</Switch>
-                </div>
-                {notification}
+        <Route>
+          <div className="App min-h-screen overflow-hidden flex sm:flex-col">
+            <SidebarLeft />
+            <div className="flex flex-col w-10/12 sm:w-full">
+              <div className="sm:hidden ">
+                <Navbar />
               </div>
-            );
-          }}
-        />
+              <Switch location={location}>{reactRouter()}</Switch>
+            </div>
+            {notification}
+          </div>
+        </Route>
       </Switch>
     </Router>
   );

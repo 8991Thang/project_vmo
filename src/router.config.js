@@ -20,8 +20,14 @@ import { ProjectCreate } from "./pages/projects/project-create";
 import { Staffs } from "./pages/staffs/staffs";
 import { StaffCreate } from "./pages/staffs/staffs-create";
 import { StaffDetail } from "./pages/staffs/staff-detail";
+import { LoginPage } from "./pages/login/login";
 
 export const routes = [
+  {
+    path: "/login",
+    exact: true,
+    component: LoginPage,
+  },
   {
     path: "/project-type",
     exact: true,

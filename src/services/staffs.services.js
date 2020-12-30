@@ -5,8 +5,6 @@ import {
   sendingRequestStaffPending,
   sendingRequestStafftError,
 } from "../modules/staffs/staffs.actions";
-
-
 export const getDataStaffsFromApi = limitItems => async dispatch => {
   const apiStaffs = REACT_APP_API_SERVER_STAFFS + "?" + limitItems;
   dispatch(sendingRequestStaffPending());
@@ -21,4 +19,3 @@ export const getDataStaffsFromApi = limitItems => async dispatch => {
     }
   }
 };
-

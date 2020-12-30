@@ -2,27 +2,27 @@ import { useEffect, useState } from "react";
 import { apiGet } from "../../../api/api";
 import { Loading } from "../../../components/loading/loading";
 import { Pagination } from "../../../components/pagination/pagination";
-import { REACT_APP_API_SERVER_CUSTOMERS } from "../../../constants/constants";
-import { LIMIT_CUSTOMERS } from "../customers.constans";
-import { RowTableCustomers } from "./row-table-customer";
+import { REACT_APP_API_SERVER_PROJECT_STATUS } from "../../../constants/constants";
+import { LIMIT_PROJECT_STATUS } from "../project-status.constans";
+import RowTableProjectStatus from "./row-table-project-status";
 const queryString = require("query-string");
-export const TableListCustomers = () => {
+export const TableProjectStatus = () => {
   const [loading, setLoading] = useState(false);
-  const [listCustomers, setListCustomers] = useState([]);
+  const [listProjectStatus, setListProjectStatus] = useState([]);
   const [page, setPage] = useState(1);
-  const getDataCustomers = async () => {
+  const getDataProjectStatus = async () => {
     setLoading(true);
-    const stringified = queryString.stringify({ limit: LIMIT_CUSTOMERS, page });
-    const apiCustomers = `${REACT_APP_API_SERVER_CUSTOMERS}?${stringified}`;
+    const stringified = queryString.stringify({ limit: LIMIT_PROJECT_STATUS, page });
+    const apiProjectStatus = REACT_APP_API_SERVER_PROJECT_STATUS + "?" + stringified;
     try {
-      const respon = await apiGet(apiCustomers);
+      const respon = await apiGet(apiProjectStatus);
       const { data } = respon.data;
       const { totalDoc } = data;
       const convertData = data.record.map(item => {
         return { ...item, index: data.startIndex++ };
       });
-      const totalPage = Math.ceil(totalDoc / LIMIT_CUSTOMERS);
-      setListCustomers({ data: convertData, totalPage });
+      const totalPage = Math.ceil(totalDoc / LIMIT_PROJECT_STATUS);
+      setListProjectStatus({ data: convertData, totalPage });
       setLoading(false);
     }
     catch (error) {
@@ -30,9 +30,9 @@ export const TableListCustomers = () => {
     }
   };
   useEffect(() => {
-    getDataCustomers();
+    getDataProjectStatus();
   }, [page]);
-  const handleChangePage = e => {
+  const handlePageChange = e => {
     const numberPage = e.selected + 1;
     setPage(numberPage);
   };
@@ -41,33 +41,31 @@ export const TableListCustomers = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="sm:flex sm:flex-col sm:items-center sm:w-full">
-          <table className="flex-col shadow-xl sm:w-11/12 flex justify-center bg-white w-11/12 rounded-xl">
+        <div className="sm:flex sm:flex-col sm:justify-center sm:items-center">
+          <table className="flex-col shadow-xl flex justify-center bg-white w-11/12 rounded-xl">
             <thead>
               <tr className=" flex w-full bg-indigo-700 justify-around text-white rounded-t-xl cursor-pointer hover:bg-indigo-600">
                 <th className="pt-5 pb-5 w-1/12">No.</th>
-                <th className="pt-5 pb-5 w-2/12 text-left ">Name</th>
-                <th className="pt-5 pb-5 w-2/12 text-left sm:hidden ">Description</th>
-                <th className="pt-5 pb-5 w-1/12 sm:w-2/12">Priority</th>
+                <th className="pt-5 pb-5 w-2/12 text-left">Name</th>
+                <th className="pt-5 pb-5 w-2/12 sm:hidden text-left">Description</th>
                 <th className="pt-5 pb-5 w-1/12 lg:w-2/12 sm:w-2/12">Status</th>
               </tr>
             </thead>
-            {listCustomers.data &&
-              listCustomers.data.map(projectType => {
+            {listProjectStatus.data &&
+              listProjectStatus.data.map((projectType, i) => {
                 return (
-                  <RowTableCustomers
-                    link={"/customers/" + projectType._id}
-                    key={projectType._id}
+                  <RowTableProjectStatus
+                    link={"/project-status/" + projectType._id}
+                    key={i}
                     number={projectType.index + 1}
                     type={projectType.name}
                     description={projectType.description}
-                    priority={projectType.priorityNumber}
                     status={projectType.status}
                   />
                 );
               })}
           </table>
-          <Pagination totalPage={listCustomers.totalPage} onChange={handleChangePage} />
+          <Pagination totalPage={listProjectStatus.totalPage} onChange={handlePageChange} />
         </div>
       )}
     </div>

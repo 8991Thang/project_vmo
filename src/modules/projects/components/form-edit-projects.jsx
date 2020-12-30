@@ -4,11 +4,10 @@ import MultiSelect from "react-multi-select-component";
 import { useDispatch, useSelector } from "react-redux";
 import { getDaTaTotal, updateProjects } from "../projects.services";
 
-import { setLinkRedirect } from "../../../app/statusReducers";
+import { setLinkRedirect } from "../../../reducers/statusReducers";
 import { INACTIVE } from "../../../constants/constants";
 
 const oneItemDisabled = item => {
-
   if (item.status === INACTIVE) {
     return { label: item.name, value: item._id, disabled: true };
   }
@@ -79,7 +78,6 @@ export const FormEditProjects = ({ setUpdate, dataDetails }) => {
       },
     };
     dispatch(updateProjects(dataDetails._id, dataNewProjects, setUpdate));
-
   };
   const handleChange = dataSelect => {
     if (projectStatus.length > 0) setProjectStatus([dataSelect[1]]);

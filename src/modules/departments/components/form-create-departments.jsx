@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 import MultiSelect from "react-multi-select-component";
 import { useDispatch, useSelector } from "react-redux";
-import { setLinkRedirect } from "../../../app/statusReducers";
 import { TitlePage } from "../../../components/title-page/title-page";
+import { setLinkRedirect } from "../../../reducers/statusReducers";
 import {
   getDataCreateDepartment,
   sendingRequestNewDepartmentFromApi,
@@ -28,7 +28,6 @@ export const FormCreateDepartments = () => {
   const [selectedStaffs, setSelectedStaffs] = useState([]);
   const [selectedProject, setSelectedProject] = useState([]);
   const [selectedTechStacks, setSelectedTechStacks] = useState([]);
-
 
   useEffect(() => {
     dispatch(getDataCreateDepartment());

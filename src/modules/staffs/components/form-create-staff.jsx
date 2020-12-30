@@ -8,7 +8,7 @@ import MultiSelect from "react-multi-select-component";
 import { createNewStaffFromApi } from "../staffs.services";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { setLinkRedirect } from "../../../app/statusReducers";
+import { setLinkRedirect } from "../../../reducers/statusReducers";
 import { getListTechStack } from "../../../services/tech-stack.services";
 import { getRoleStaffsStatus } from "../../../services/roles";
 import { BiChevronDown } from "react-icons/bi";
@@ -37,7 +37,6 @@ export const FormCreateStaff = () => {
   const [selectedTechStacks, setSelectedTechStacks] = useState([]);
   const [skills, setSkills] = useState([]);
 
-
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
 
   const [isShowTechStacks, setIsShowTechStacks] = useState(false);
@@ -54,7 +53,6 @@ export const FormCreateStaff = () => {
   useOutsideClick(selectCertificate, () => {
     setIsShowCerts(false);
   });
-
 
   useEffect(() => {
     dispatch(getListTechStack());
@@ -224,8 +222,8 @@ export const FormCreateStaff = () => {
                     <label className="block text-sm text-gray-00 my-2" htmlFor="certs">
                       Certificate
                     </label>
-                    <div className="relative"ref={selectCertificate}>
-                      <div className="relative" >
+                    <div className="relative" ref={selectCertificate}>
+                      <div className="relative">
                         <input
                           className="w-full px-5 outline-none py-1 text-gray-700 focus:shadow-lg border-indigo-700 border rounded"
                           id="certs"
@@ -266,7 +264,7 @@ export const FormCreateStaff = () => {
                     <label className="block text-sm text-gray-00 my-2" htmlFor="languages">
                       Languages
                     </label>
-                    <div className="relative" ref={selectLanguages} >
+                    <div className="relative" ref={selectLanguages}>
                       <div className="relative">
                         <input
                           className="w-full px-5 outline-none py-1 text-gray-700 focus:shadow-lg border-indigo-700 border rounded"
@@ -324,13 +322,10 @@ export const FormCreateStaff = () => {
                     >
                       Select level tech stacks
                     </label>
-                    <div className="relative"
-                      ref={selectLevelSkill}
-                    >
+                    <div className="relative" ref={selectLevelSkill}>
                       <div
                         className="border py-1 rounded px-5 "
                         onClick={() => setIsShowTechStacks(!isShowTechStacks)}
-
                       >
                         <span className="text-gray-700">Select..</span>
                       </div>
@@ -353,7 +348,7 @@ export const FormCreateStaff = () => {
                               className="border rounded"
                               onChange={e => changeLevel(e, item.techStackId)}
                             >
-                              <option value={FRESHER} >{FRESHER}</option>
+                              <option value={FRESHER}>{FRESHER}</option>
                               <option value={JUNIOR}>{JUNIOR}</option>
                               <option value={SENIOR}>{SENIOR}</option>
                             </select>
@@ -362,8 +357,6 @@ export const FormCreateStaff = () => {
                       </ul>
                     </div>
                   </div>
-
-
 
                   <div className="w-1/2 sm:w-full pt-4 pr-4 sm:pr-0">
                     <label className="block text-sm text-gray-00 mb-2" htmlFor="address">

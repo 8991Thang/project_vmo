@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { resetStatus } from "../../app/statusReducers";
+import { resetStatus } from "../../reducers/statusReducers";
 import { FcInfo } from "react-icons/fc";
 export const ModalWarning = () => {
   const refModalWarning = useRef();

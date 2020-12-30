@@ -8,8 +8,8 @@ import {
 } from "../departments.services";
 import { FormDepartmentDetails } from "./form-department-details";
 import { FormEditDepartmentDetails } from "./form-edit-department-details";
-import { setLinkRedirect } from "../../../app/statusReducers";
 import { Loading } from "../../../components/loading/loading";
+import { setLinkRedirect } from "../../../reducers/statusReducers";
 
 export const DepartmentDetailsModules = () => {
   const [update, setUpdate] = useState(false);
@@ -44,15 +44,9 @@ export const DepartmentDetailsModules = () => {
       ) : (
         <div className="flex justify-center">
           {update ? (
-            <FormEditDepartmentDetails
-              onSubmit={onSubmitUpdateDepartment}
-              setUpdate={setUpdate}
-            />
+            <FormEditDepartmentDetails onSubmit={onSubmitUpdateDepartment} setUpdate={setUpdate} />
           ) : (
-            <FormDepartmentDetails
-              sumbitDelete={sumbitDeleteDepartment}
-              setUpdate={setUpdate}
-            />
+            <FormDepartmentDetails sumbitDelete={sumbitDeleteDepartment} setUpdate={setUpdate} />
           )}
         </div>
       )}

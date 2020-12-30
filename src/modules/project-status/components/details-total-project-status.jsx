@@ -1,20 +1,32 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { apiGet } from "../../../api/api";
 import { Loading } from "../../../components/loading/loading";
-import { getDetailsProjectStatus } from "../project-status.services";
+import { REACT_APP_API_SERVER_PROJECT_STATUS } from "../../../constants/constants";
 import { FormDetailProjectStatus } from "./form-detail-project-status";
 import { FormEditProjectStatus } from "./form-edit-project-status";
 export const DetailsProjectStatus = () => {
+  const [loading, setLoading] = useState(false);
+  const [detailsProjectStatus, setDataDetailsProjectStatus] = useState([]);
   const [editStatus, setEditStatus] = useState(false);
   const [update, setUpdate] = useState(false);
-  const { projectStatusDetails } = useSelector(state => state.projectStatus);
-  const { loading } = useSelector(state => state.projectStatus);
-  const dispatch = useDispatch();
   const params = useParams();
   useEffect(() => {
-    dispatch(getDetailsProjectStatus(params.id));
+    getDataDetailsProjectStatus();
   }, [update]);
+  const getDataDetailsProjectStatus = async () => {
+    setLoading(true);
+    const apiProjectStatus = `${REACT_APP_API_SERVER_PROJECT_STATUS}/${params.id}`;
+    try {
+      const respon = await apiGet(apiProjectStatus);
+      const { data } = respon.data;
+      setDataDetailsProjectStatus(data.record);
+      setLoading(false);
+    }
+    catch (error) {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       {loading ? (
@@ -23,7 +35,7 @@ export const DetailsProjectStatus = () => {
         <div>
           {editStatus ? (
             <FormEditProjectStatus
-              projectStatusDetails={projectStatusDetails.record}
+              projectStatusDetails={detailsProjectStatus}
               setEditStatus={setEditStatus}
               setUpdate={setUpdate}
               update={update}
@@ -31,7 +43,7 @@ export const DetailsProjectStatus = () => {
           ) : (
             <FormDetailProjectStatus
               setEditStatus={setEditStatus}
-              projectStatusDetails={projectStatusDetails.record}
+              projectStatusDetails={detailsProjectStatus}
             />
           )}
         </div>

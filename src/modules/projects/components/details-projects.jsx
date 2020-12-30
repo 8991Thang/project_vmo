@@ -5,7 +5,7 @@ import { Loading } from "../../../components/loading/loading";
 import { deleteProjects, getDetailsProjects } from "../projects.services";
 import { FormDetailProjects } from "./form-detail-projects";
 import { FormEditProjects } from "./form-edit-projects";
-import { setLinkRedirect } from "../../../app/statusReducers";
+import { setLinkRedirect } from "../../../reducers/statusReducers";
 
 export const DetailsProjects = () => {
   const [update, setUpdate] = useState(false);

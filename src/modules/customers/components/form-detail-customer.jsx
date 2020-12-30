@@ -1,18 +1,28 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { FcAbout } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
-import { setLinkRedirect } from "../../../app/statusReducers";
-import { deleteCustomer } from "../customers.services";
+import { useHistory } from "react-router-dom";
+import { apiDelete } from "../../../api/api";
+import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
+import { REACT_APP_API_SERVER_CUSTOMERS } from "../../../constants/constants";
 
 export const FormDetailCustomer = ({ dataDetails, setUpdate }) => {
-  const dispatch = useDispatch();
-  const { link: linkCustomers } = useSelector(state => state.customers);
-  useEffect(() => {
-    dispatch(setLinkRedirect(linkCustomers));
-  }, [linkCustomers]);
-  const sumbitDeleteCustomers = () => {
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const linkUpdateThenRedirect = "/customers";
+  const sumbitDeleteCustomers = async () => {
+    setLoading(true);
     const { _id } = dataDetails;
-    dispatch(deleteCustomer(_id));
+    const apiCustomer = `${REACT_APP_API_SERVER_CUSTOMERS}/${_id}`;
+    try {
+      const respon = await apiDelete(apiCustomer);
+      if (respon.status === 200) {
+        setLoading(false);
+        history.push(linkUpdateThenRedirect);
+      }
+    }
+    catch (error) {
+      setLoading(false);
+    }
   };
   return (
     <div className="w-10/12 sm:w-11/12 sm:ml-4 rounded-lg shadow-lg bg-white mt-10 ml-5">
@@ -57,7 +67,7 @@ export const FormDetailCustomer = ({ dataDetails, setUpdate }) => {
             onClick={sumbitDeleteCustomers}
             className="border font-medium border-red-400 bg-red-400 text-white rounded-md px-3 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline"
           >
-            DELETE
+            {loading ? <LoadingSmallSize size={5} /> : <p>DELETE</p>}
           </button>
           <button
             onClick={() => setUpdate(true)}

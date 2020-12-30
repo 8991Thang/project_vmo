@@ -1,22 +1,7 @@
 import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 export const NotificationSuccess = () => {
   const refNotification = useRef(null);
-  const { link } = useSelector(state => state.status);
-  const history = useHistory();
-  const timeoutRedirect = 3000;
-  const timeoutTransition = 2000;
-
-  useEffect(() => {
-    if (link === null) return;
-    const setTimeoutRedirect = setTimeout(() => {
-      history.push(link);
-    }, timeoutRedirect);
-    return () => {
-      clearTimeout(setTimeoutRedirect);
-    };
-  }, [link]);
+  const timeoutTransition = 3000;
   useEffect(() => {
     const styleElement = refNotification.current.style;
     const timeOutBegin = setTimeout(() => {
