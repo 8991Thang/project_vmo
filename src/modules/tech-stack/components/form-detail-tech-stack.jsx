@@ -3,7 +3,7 @@ import { FcAbout } from "react-icons/fc";
 import { useHistory } from "react-router-dom";
 import { apiDelete } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
-import { REACT_APP_API_SERVER_TECH_STACK } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_TECH_STACK, TIMEOUT_REDIRECT } from "../../../constants/constants";
 export const FormDetailTechStack = ({ detailsTeckStack, setUpdate }) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -16,7 +16,9 @@ export const FormDetailTechStack = ({ detailsTeckStack, setUpdate }) => {
       const respon = await apiDelete(apiProjectType);
       if (respon.status === 200) {
         setLoading(false);
-        history.push(linkUpdateThenRedirect);
+        setTimeout(() => {
+          history.push(linkUpdateThenRedirect);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {

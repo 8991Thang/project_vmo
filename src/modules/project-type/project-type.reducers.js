@@ -20,9 +20,6 @@ export const projectTypeReducer = (state = initialState, action) => {
         draftState.loading = false;
         break;
       }
-      case CONSTANS.CHANGE_PAGE_PROJECT_TYPE:
-        draftState.page = action.payload;
-        break;
       default:
         return state;
     }

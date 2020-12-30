@@ -1,8 +1,8 @@
 import produce from "immer";
 import * as CONSTANS from "./customers.constans";
 const initialState = {
-  page: 1,
   data: [],
+  loading: false,
 };
 export const customersReducer = (state = initialState, action) => {
   return produce(state, draftState => {
@@ -22,9 +22,6 @@ export const customersReducer = (state = initialState, action) => {
       }
       case CONSTANS.GET_CUSTOMERS_ERROR:
         draftState.loading = false;
-        break;
-      case CONSTANS.CHANGE_PAGE_CUSTOMERS:
-        draftState.page = action.payload;
         break;
       default:
         return state;

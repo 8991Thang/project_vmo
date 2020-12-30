@@ -18,10 +18,3 @@ export const getTechStackPending = () => {
     type: CONSTANS.GET_TECH_STACK_PENDING,
   };
 };
-
-export const changePageLimitTechStack = page => {
-  return {
-    type: CONSTANS.CHANGE_PAGE_LIMIT_TECH_STACK,
-    payload: page,
-  };
-};

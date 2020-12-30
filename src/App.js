@@ -6,6 +6,7 @@ import { Navbar } from "./components/navbar-header/navbar";
 import { SidebarLeft } from "./components/sidebar-left/sidebar";
 import { LoginPage } from "./pages/login/login";
 import { routes } from "./router.config";
+import { PageTransition } from "@steveeeie/react-page-transition";
 import { checkStatusResponse } from "./utils/check-status-call-api";
 function App() {
   const [notification, setNotifications] = useState(null);
@@ -23,18 +24,27 @@ function App() {
       <Switch>
         <Route exact path="/login" component={LoginPage} />
         <Redirect from="/" exact to="/login" />
-        <Route>
-          <div className="App min-h-screen overflow-hidden flex sm:flex-col">
-            <SidebarLeft />
-            <div className="flex flex-col w-10/12 sm:w-full">
-              <div className="sm:hidden ">
-                <Navbar />
+        <Route
+          render={({ location }) => {
+            return (
+              <div className="App min-h-screen flex flex-row">
+                <SidebarLeft />
+                <div className="flex flex-col w-10/12">
+                  <Navbar />
+                  <PageTransition
+                    preset="moveToRightFromLeft"
+                    transitionKey={location.pathname}
+                    enterAnimation="scaleUp"
+                    exitAnimation="moveToRightFade"
+                  >
+                    <Switch location={location}>{reactRouter()}</Switch>
+                  </PageTransition>
+                </div>
+                {notification}
               </div>
-              <Switch location={location}>{reactRouter()}</Switch>
-            </div>
-            {notification}
-          </div>
-        </Route>
+            );
+          }}
+        />
       </Switch>
     </Router>
   );

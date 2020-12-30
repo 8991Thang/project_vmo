@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { apiPut } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
-import { REACT_APP_API_SERVER_CUSTOMERS } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_CUSTOMERS, TIMEOUT_REDIRECT } from "../../../constants/constants";
 export const FormEditCustomer = ({ dataDetails, setUpdate, setEdit, update }) => {
   const { register: dataForm, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
@@ -16,8 +16,10 @@ export const FormEditCustomer = ({ dataDetails, setUpdate, setEdit, update }) =>
       const respon = await apiPut(apiProjectStatus, dataCustomers);
       if (respon.status === 200) {
         setLoading(false);
-        setEdit(false);
-        setUpdate(!update);
+        setTimeout(() => {
+          setEdit(false);
+          setUpdate(!update);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {

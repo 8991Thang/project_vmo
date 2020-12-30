@@ -18,10 +18,3 @@ export const getProjectStatusPending = () => {
     type: CONSTANS.GET_PROJECT_STATUS_PENDING,
   };
 };
-
-export const changePageLimitProjectStatus = page => {
-  return {
-    type: CONSTANS.CHANGE_PAGE_PROJECT_STATUS,
-    payload: page,
-  };
-};

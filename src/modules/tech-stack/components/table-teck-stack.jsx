@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiGet } from "../../../api/api";
 import { Loading } from "../../../components/loading/loading";
-import { Pagination } from "../../../components/pagination/pagination";
+import { PaginationNav } from "../../../components/pagination/pagination";
 import { REACT_APP_API_SERVER_TECH_STACK } from "../../../constants/constants";
 import { LIMIT_TECH_STACK } from "../tech-stack.constans";
 import RowTableTechStack from "./row-table-tech-stack";
@@ -33,7 +33,7 @@ export const TableTechStack = () => {
     getDataTechStack();
   }, [page]);
   const handleChangePage = e => {
-    const numberPage = e.selected + 1;
+    const numberPage = e;
     setPage(numberPage);
   };
   return (
@@ -66,7 +66,11 @@ export const TableTechStack = () => {
                 );
               })}
           </table>
-          <Pagination totalPage={listTeckStack.totalPage} onChange={handleChangePage} />
+          <PaginationNav
+            page={page}
+            totalPage={listTeckStack.totalPage}
+            onChange={handleChangePage}
+          />
         </div>
       )}
     </div>

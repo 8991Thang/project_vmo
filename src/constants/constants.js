@@ -20,3 +20,4 @@ export const JUNIOR = "junior";
 export const SENIOR = "senior";
 
 export const INACTIVE = "inactive";
+export const TIMEOUT_REDIRECT = 2500;

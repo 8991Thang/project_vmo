@@ -12,11 +12,11 @@ export const getCustomers = limitItems => async dispatch => {
   try {
     const respon = await apiGet(apiCustomers);
     const { data } = respon.data;
-    await dispatch(getCustomersSuccess(data));
+    dispatch(getCustomersSuccess(data));
   }
   catch (error) {
     if (error.response.status) {
-      await dispatch(getCustomersError(error.response.status));
+      dispatch(getCustomersError(error.response.status));
     }
   }
 };

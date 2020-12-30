@@ -7,21 +7,23 @@ import { useHistory } from "react-router-dom";
 import { apiPost } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
 import { TitlePage } from "../../../components/title-page/title-page";
-import { REACT_APP_API_SERVER_TECH_STACK } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_TECH_STACK, TIMEOUT_REDIRECT } from "../../../constants/constants";
 export const FormCreateTechStack = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const linkCustomers = "/tech-stack/";
-  const onSubmit = async dataTechStack => {
+  const linkTechStack = "/tech-stack/";
+  const handleOnSubmitCreate = async dataTechStack => {
     setLoading(true);
     const apiTechStack = REACT_APP_API_SERVER_TECH_STACK;
     try {
       const respon = await apiPost(apiTechStack, dataTechStack);
       if (respon.status === 200) {
         const idNewPost = respon.data.data.recordId;
-        history.push(`${linkCustomers + idNewPost}`);
         setLoading(false);
+        setTimeout(() => {
+          history.push(`${linkTechStack + idNewPost}`);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {
@@ -38,7 +40,7 @@ export const FormCreateTechStack = () => {
           <div className="leading-loose w-6/12 lg:w-full sm:w-full">
             <form
               className=" m-4 p-10 bg-white rounded shadow-xl"
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(handleOnSubmitCreate)}
             >
               <div className="text-gray-800 font-medium items-center flex mb-5">
                 <FcAbout className="text-xl  mr-1" />

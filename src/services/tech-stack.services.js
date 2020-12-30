@@ -11,11 +11,11 @@ export const getListTechStack = limitItems => async dispatch => {
   try {
     const respon = await apiGet(apiStaffs);
     const { data } = respon.data;
-    await dispatch(getTechStackSuccess(data));
+    dispatch(getTechStackSuccess(data));
   }
   catch (error) {
     if (error.response.status) {
-      await dispatch(getTechStackError(error.response.status));
+      dispatch(getTechStackError(error.response.status));
     }
   }
 };

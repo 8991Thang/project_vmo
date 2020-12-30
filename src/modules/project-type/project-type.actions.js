@@ -17,9 +17,3 @@ export const getProjectTypeError = error => {
     error,
   };
 };
-export const changePageLimitProjectType = pageChange => {
-  return {
-    type: CONSTANS.CHANGE_PAGE_PROJECT_TYPE,
-    payload: pageChange,
-  };
-};

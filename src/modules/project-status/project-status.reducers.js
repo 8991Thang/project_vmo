@@ -21,9 +21,6 @@ export const projectStatusReducers = (state = initialState, action) => {
         draftState.data = convertData;
         break;
       }
-      case CONSTANS.CHANGE_PAGE_PROJECT_STATUS:
-        draftState.page = action.payload;
-        break;
       default:
         return state;
     }

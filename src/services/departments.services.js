@@ -12,11 +12,11 @@ export const getDataDepartmentsFromApi = limitItems => async dispatch => {
   try {
     const respon = await apiGet(apiDepartments);
     const { data } = respon.data;
-    await dispatch(getDepartmentsSuccess(data));
+    dispatch(getDepartmentsSuccess(data));
   }
   catch (error) {
     if (error.response.status) {
-      await dispatch(sendingRequestDepartmentError(error.response.status));
+      dispatch(sendingRequestDepartmentError(error.response.status));
     }
   }
 };

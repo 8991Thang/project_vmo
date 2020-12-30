@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 export const NotificationSuccess = () => {
   const refNotification = useRef(null);
-  const timeoutTransition = 3000;
+  const timeoutTransition = 2000;
   useEffect(() => {
     const styleElement = refNotification.current.style;
     const timeOutBegin = setTimeout(() => {

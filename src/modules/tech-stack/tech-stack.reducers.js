@@ -1,7 +1,6 @@
 import produce from "immer";
 import * as CONSTANS from "./tech-stack.constans";
 const initialState = {
-  page: 1,
   data: [],
 };
 export const techStackReducers = (state = initialState, action) => {
@@ -23,9 +22,6 @@ export const techStackReducers = (state = initialState, action) => {
       }
       case CONSTANS.GET_TECH_STACK_ERROR:
         draftState.loading = false;
-        break;
-      case CONSTANS.CHANGE_PAGE_LIMIT_TECH_STACK:
-        draftState.page = action.payload;
         break;
       default:
         return state;

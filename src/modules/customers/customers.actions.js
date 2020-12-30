@@ -17,9 +17,3 @@ export const getCustomersError = error => {
     error,
   };
 };
-export const changePageLimitCustomers = pageChange => {
-  return {
-    type: CONSTANS.CHANGE_PAGE_CUSTOMERS,
-    payload: pageChange,
-  };
-};

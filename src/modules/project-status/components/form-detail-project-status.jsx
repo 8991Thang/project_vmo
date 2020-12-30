@@ -3,7 +3,10 @@ import { FcAbout } from "react-icons/fc";
 import { useHistory } from "react-router-dom";
 import { apiDelete } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
-import { REACT_APP_API_SERVER_PROJECT_STATUS } from "../../../constants/constants";
+import {
+  REACT_APP_API_SERVER_PROJECT_STATUS,
+  TIMEOUT_REDIRECT,
+} from "../../../constants/constants";
 export const FormDetailProjectStatus = ({ projectStatusDetails, setEditStatus }) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -16,7 +19,9 @@ export const FormDetailProjectStatus = ({ projectStatusDetails, setEditStatus })
       const respon = await apiDelete(apiProjectType);
       if (respon.status === 200) {
         setLoading(false);
-        history.push(linkUpdateThenRedirect);
+        setTimeout(() => {
+          history.push(linkUpdateThenRedirect);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {

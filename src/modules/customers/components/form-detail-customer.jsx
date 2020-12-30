@@ -3,7 +3,7 @@ import { FcAbout } from "react-icons/fc";
 import { useHistory } from "react-router-dom";
 import { apiDelete } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
-import { REACT_APP_API_SERVER_CUSTOMERS } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_CUSTOMERS, TIMEOUT_REDIRECT } from "../../../constants/constants";
 
 export const FormDetailCustomer = ({ dataDetails, setUpdate }) => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,9 @@ export const FormDetailCustomer = ({ dataDetails, setUpdate }) => {
       const respon = await apiDelete(apiCustomer);
       if (respon.status === 200) {
         setLoading(false);
-        history.push(linkUpdateThenRedirect);
+        setTimeout(() => {
+          history.push(linkUpdateThenRedirect);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {

@@ -7,22 +7,24 @@ import { useHistory } from "react-router-dom";
 import { apiPost } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
 import { TitlePage } from "../../../components/title-page/title-page";
-import { REACT_APP_API_SERVER_PROJECT_TYPE } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_PROJECT_TYPE, TIMEOUT_REDIRECT } from "../../../constants/constants";
 export const FormCreateProjectType = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const linkCustomers = "/project-type/";
+  const linkProjectType = "/project-type/";
   const onSubmit = async dataNewProjectStatus => {
     setLoading(true);
     dataNewProjectStatus.priorityNumber = parseInt(dataNewProjectStatus.priorityNumber);
-    const apiCustomers = REACT_APP_API_SERVER_PROJECT_TYPE;
+    const apiProjectType = REACT_APP_API_SERVER_PROJECT_TYPE;
     try {
-      const respon = await apiPost(apiCustomers, dataNewProjectStatus);
+      const respon = await apiPost(apiProjectType, dataNewProjectStatus);
       if (respon.status === 200) {
         const idNewPost = respon.data.data.recordId;
-        history.push(`${linkCustomers + idNewPost}`);
         setLoading(false);
+        setTimeout(() => {
+          history.push(`${linkProjectType + idNewPost}`);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {

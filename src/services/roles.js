@@ -13,11 +13,11 @@ export const getRoleStaffsStatus = () => async dispatch => {
   try {
     const respon = await apiGet(apiStaffs);
     const { data } = respon.data;
-    await dispatch(getRoleStaffSuccess(data));
+    dispatch(getRoleStaffSuccess(data));
   }
   catch (error) {
     if (error.response.status) {
-      await dispatch(sendingRequestStafftError(error.response.status));
+      dispatch(sendingRequestStafftError(error.response.status));
     }
   }
 };

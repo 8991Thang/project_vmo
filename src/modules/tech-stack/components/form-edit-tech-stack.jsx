@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { apiPut } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
-import { REACT_APP_API_SERVER_TECH_STACK } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_TECH_STACK, TIMEOUT_REDIRECT } from "../../../constants/constants";
 export const FormEditTechStack = ({
   setUpdate,
   detailsTeckStack,
@@ -20,8 +20,10 @@ export const FormEditTechStack = ({
       const respon = await apiPut(apiTechStack, dataTechStack);
       if (respon.status === 200) {
         setLoading(false);
-        setUpdate(false);
-        setIsEditingDone(!isEditingDone);
+        setTimeout(() => {
+          setUpdate(false);
+          setIsEditingDone(!isEditingDone);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {

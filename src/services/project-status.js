@@ -12,11 +12,11 @@ export const getListProjectStatus = limitItems => async dispatch => {
   try {
     const respon = await apiGet(apiProjectStatus);
     const { data } = respon.data;
-    await dispatch(getProjectStatusSuccess(data));
+    dispatch(getProjectStatusSuccess(data));
   }
   catch (error) {
     if (error.response.status) {
-      await dispatch(getProjectStatusError(error.response.status));
+      dispatch(getProjectStatusError(error.response.status));
     }
   }
 };

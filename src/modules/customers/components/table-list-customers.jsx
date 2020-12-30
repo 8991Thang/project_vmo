@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiGet } from "../../../api/api";
 import { Loading } from "../../../components/loading/loading";
-import { Pagination } from "../../../components/pagination/pagination";
+import { PaginationNav } from "../../../components/pagination/pagination";
 import { REACT_APP_API_SERVER_CUSTOMERS } from "../../../constants/constants";
 import { LIMIT_CUSTOMERS } from "../customers.constans";
 import { RowTableCustomers } from "./row-table-customer";
@@ -33,7 +33,7 @@ export const TableListCustomers = () => {
     getDataCustomers();
   }, [page]);
   const handleChangePage = e => {
-    const numberPage = e.selected + 1;
+    const numberPage = e;
     setPage(numberPage);
   };
   return (
@@ -67,7 +67,11 @@ export const TableListCustomers = () => {
                 );
               })}
           </table>
-          <Pagination totalPage={listCustomers.totalPage} onChange={handleChangePage} />
+          <PaginationNav
+            totalPage={listCustomers.totalPage}
+            page={page}
+            onChange={handleChangePage}
+          />
         </div>
       )}
     </div>

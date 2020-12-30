@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { apiPut } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
-import { REACT_APP_API_SERVER_PROJECT_TYPE } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_PROJECT_TYPE, TIMEOUT_REDIRECT } from "../../../constants/constants";
 export const FormEditProjectType = ({
   setUpdate,
   dataDetails,
@@ -21,8 +21,10 @@ export const FormEditProjectType = ({
       const respon = await apiPut(apiProjectStatus, dataProjectType);
       if (respon.status === 200) {
         setLoading(false);
-        setUpdate(false);
-        setIsEditingDone(!isEditingDone);
+        setTimeout(() => {
+          setUpdate(false);
+          setIsEditingDone(!isEditingDone);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {

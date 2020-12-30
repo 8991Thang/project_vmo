@@ -11,11 +11,11 @@ export const getDataStaffsFromApi = limitItems => async dispatch => {
   try {
     const respon = await apiGet(apiStaffs);
     const { data } = respon.data;
-    await dispatch(getStaffsSuccess(data));
+    dispatch(getStaffsSuccess(data));
   }
   catch (error) {
     if (error.response.status) {
-      await dispatch(sendingRequestStafftError(error.response.status));
+      dispatch(sendingRequestStafftError(error.response.status));
     }
   }
 };

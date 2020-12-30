@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiGet } from "../../../api/api";
 import { Loading } from "../../../components/loading/loading";
-import { Pagination } from "../../../components/pagination/pagination";
+import { PaginationNav } from "../../../components/pagination/pagination";
 import { REACT_APP_API_SERVER_PROJECT_TYPE } from "../../../constants/constants";
 import { LIMIT_PROJECT_TYPE } from "../project-type.constants";
 import RowTableProjectType from "./row-table-project-type";
@@ -33,7 +33,7 @@ export const TableProjectType = () => {
     getDataProjectStatus();
   }, [page]);
   const handelChangePage = e => {
-    const numberPage = e.selected + 1;
+    const numberPage = e;
     setPage(numberPage);
   };
   return (
@@ -67,7 +67,11 @@ export const TableProjectType = () => {
                 );
               })}
           </table>
-          <Pagination totalPage={ListProjectType.totalPage} onChange={handelChangePage} />
+          <PaginationNav
+            page={page}
+            totalPage={ListProjectType.totalPage}
+            onChange={handelChangePage}
+          />
         </div>
       )}
     </div>

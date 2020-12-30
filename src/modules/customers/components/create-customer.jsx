@@ -7,13 +7,12 @@ import { useHistory } from "react-router-dom";
 import { apiPost } from "../../../api/api";
 import { LoadingSmallSize } from "../../../components/loading/loading-small-size";
 import { TitlePage } from "../../../components/title-page/title-page";
-import { REACT_APP_API_SERVER_CUSTOMERS } from "../../../constants/constants";
+import { REACT_APP_API_SERVER_CUSTOMERS, TIMEOUT_REDIRECT } from "../../../constants/constants";
 export const CreateNewCustomer = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
   const linkCustomers = "/customers/";
-  const timeoutRedirectThenCreate = 3000;
   const onSubmit = async dataNewCustomers => {
     setLoading(true);
     dataNewCustomers.priorityNumber = parseInt(dataNewCustomers.priorityNumber);
@@ -25,7 +24,7 @@ export const CreateNewCustomer = () => {
         setLoading(false);
         setTimeout(() => {
           history.push(`${linkCustomers + idNewPost}`);
-        }, timeoutRedirectThenCreate);
+        }, TIMEOUT_REDIRECT);
       }
     }
     catch (error) {
