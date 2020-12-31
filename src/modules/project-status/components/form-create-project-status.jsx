@@ -15,7 +15,7 @@ export const FormCreateProjectStatus = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const linkProjectStatus = "/project-status/";
+  const linkProjectStatus = "/project-status";
   const onSubmit = async dataNewProjectStatus => {
     setLoading(true);
     const apiCustomers = REACT_APP_API_SERVER_PROJECT_STATUS;

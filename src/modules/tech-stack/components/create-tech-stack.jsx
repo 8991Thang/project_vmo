@@ -12,7 +12,7 @@ export const FormCreateTechStack = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const linkTechStack = "/tech-stack/";
+  const linkTechStack = "/tech-stack";
   const handleOnSubmitCreate = async dataTechStack => {
     setLoading(true);
     const apiTechStack = REACT_APP_API_SERVER_TECH_STACK;

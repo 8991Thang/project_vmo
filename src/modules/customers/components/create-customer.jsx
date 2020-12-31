@@ -12,7 +12,7 @@ export const CreateNewCustomer = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const linkCustomers = "/customers/";
+  const linkCustomers = "/customers";
   const onSubmit = async dataNewCustomers => {
     setLoading(true);
     dataNewCustomers.priorityNumber = parseInt(dataNewCustomers.priorityNumber);

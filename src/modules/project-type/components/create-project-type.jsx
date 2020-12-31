@@ -12,7 +12,7 @@ export const FormCreateProjectType = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { register: dataForm, handleSubmit } = useForm();
-  const linkProjectType = "/project-type/";
+  const linkProjectType = "/project-type";
   const onSubmit = async dataNewProjectStatus => {
     setLoading(true);
     dataNewProjectStatus.priorityNumber = parseInt(dataNewProjectStatus.priorityNumber);
