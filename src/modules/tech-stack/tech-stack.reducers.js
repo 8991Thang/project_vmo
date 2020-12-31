@@ -1,6 +1,7 @@
 import produce from "immer";
 import * as CONSTANS from "./tech-stack.constans";
 const initialState = {
+  loading: false,
   data: [],
 };
 export const techStackReducers = (state = initialState, action) => {

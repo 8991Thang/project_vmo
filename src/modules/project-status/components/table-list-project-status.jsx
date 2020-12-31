@@ -52,11 +52,11 @@ export const TableProjectStatus = () => {
               </tr>
             </thead>
             {listProjectStatus.data &&
-              listProjectStatus.data.map((projectType, i) => {
+              listProjectStatus.data.map(projectType => {
                 return (
                   <RowTableProjectStatus
                     link={"/project-status/" + projectType._id}
-                    key={i}
+                    key={projectType._id}
                     number={projectType.index + 1}
                     type={projectType.name}
                     description={projectType.description}

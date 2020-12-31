@@ -49,6 +49,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:css": "npx tailwindcss-cli@latest build ./src/assets/style/main.css -o ./src/assets/style/tailwind.css",
+
     "test": "react-scripts test --coverage jest-watchAll -runInBand --detectOpenHandles",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json}\"",

@@ -14,7 +14,13 @@ https://nodejs.org/en/download/
 
 with npm: `npm install`
 
+- set 3: build main tailwind css 
+
+build : `npm run build:css`
+
 - Step 3: run server
 
 with npm: `npm run start`
+
+
 

@@ -23,7 +23,7 @@ export const CreateNewCustomer = () => {
         const idNewPost = respon.data.data.recordId;
         setLoading(false);
         setTimeout(() => {
-          history.push(`${linkCustomers + idNewPost}`);
+          history.push(linkCustomers + idNewPost);
         }, TIMEOUT_REDIRECT);
       }
     }

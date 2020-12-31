@@ -2,7 +2,7 @@ import produce from "immer";
 import * as CONSTANS from "./project-status.constans";
 
 const initialState = {
-  page: 1,
+  loading: false,
   data: [],
 };
 export const projectStatusReducers = (state = initialState, action) => {

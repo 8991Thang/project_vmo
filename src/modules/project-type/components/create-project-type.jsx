@@ -23,7 +23,7 @@ export const FormCreateProjectType = () => {
         const idNewPost = respon.data.data.recordId;
         setLoading(false);
         setTimeout(() => {
-          history.push(`${linkProjectType + idNewPost}`);
+          history.push(linkProjectType + idNewPost);
         }, TIMEOUT_REDIRECT);
       }
     }

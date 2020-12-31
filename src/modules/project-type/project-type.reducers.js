@@ -1,7 +1,7 @@
 import produce from "immer";
 import * as CONSTANS from "./project-type.constants";
 const initialState = {
-  page: 1,
+  loading: false,
   data: [],
 };
 export const projectTypeReducer = (state = initialState, action) => {

@@ -53,11 +53,11 @@ export const TableTechStack = () => {
             </thead>
 
             {listTeckStack.data &&
-              listTeckStack.data.map((techStack, i) => {
+              listTeckStack.data.map(techStack => {
                 return (
                   <RowTableTechStack
                     link={"/tech-stack/" + techStack._id}
-                    key={i}
+                    key={techStack._id}
                     number={techStack.index + 1}
                     type={techStack.name}
                     description={techStack.description}

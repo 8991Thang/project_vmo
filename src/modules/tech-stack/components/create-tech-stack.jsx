@@ -22,7 +22,7 @@ export const FormCreateTechStack = () => {
         const idNewPost = respon.data.data.recordId;
         setLoading(false);
         setTimeout(() => {
-          history.push(`${linkTechStack + idNewPost}`);
+          history.push(linkTechStack + idNewPost);
         }, TIMEOUT_REDIRECT);
       }
     }

@@ -25,7 +25,7 @@ export const FormCreateProjectStatus = () => {
         const idNewPost = respon.data.data.recordId;
         setLoading(false);
         setTimeout(() => {
-          history.push(`${linkProjectStatus + idNewPost}`);
+          history.push(linkProjectStatus + idNewPost);
         }, TIMEOUT_REDIRECT);
       }
     }
