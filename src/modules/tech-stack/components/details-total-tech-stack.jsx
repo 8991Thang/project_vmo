@@ -12,21 +12,22 @@ export const DetailsTeckStack = () => {
   const [detailsTechStack, setDataDetailsTechStack] = useState([]);
   const params = useParams();
   useEffect(() => {
+    const getDataDetailsTechStack = async () => {
+      setLoading(true);
+      const apiProjectStatus = `${REACT_APP_API_SERVER_TECH_STACK}/${params.id}`;
+      try {
+        const respon = await apiGet(apiProjectStatus);
+        const { data } = respon.data;
+        setDataDetailsTechStack(data.record);
+        setLoading(false);
+      }
+      catch (error) {
+        setLoading(false);
+      }
+    };
     getDataDetailsTechStack();
   }, [isEditingDone]);
-  const getDataDetailsTechStack = async () => {
-    setLoading(true);
-    const apiProjectStatus = `${REACT_APP_API_SERVER_TECH_STACK}/${params.id}`;
-    try {
-      const respon = await apiGet(apiProjectStatus);
-      const { data } = respon.data;
-      setDataDetailsTechStack(data.record);
-      setLoading(false);
-    }
-    catch (error) {
-      setLoading(false);
-    }
-  };
+
   return (
     <div>
       {loading ? (

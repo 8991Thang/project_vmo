@@ -12,21 +12,22 @@ export const DetailsProjectStatus = () => {
   const [update, setUpdate] = useState(false);
   const params = useParams();
   useEffect(() => {
+    const getDataDetailsProjectStatus = async () => {
+      setLoading(true);
+      const apiProjectStatus = `${REACT_APP_API_SERVER_PROJECT_STATUS}/${params.id}`;
+      try {
+        const respon = await apiGet(apiProjectStatus);
+        const { data } = respon.data;
+        setDataDetailsProjectStatus(data.record);
+        setLoading(false);
+      }
+      catch (error) {
+        setLoading(false);
+      }
+    };
     getDataDetailsProjectStatus();
   }, [update]);
-  const getDataDetailsProjectStatus = async () => {
-    setLoading(true);
-    const apiProjectStatus = `${REACT_APP_API_SERVER_PROJECT_STATUS}/${params.id}`;
-    try {
-      const respon = await apiGet(apiProjectStatus);
-      const { data } = respon.data;
-      setDataDetailsProjectStatus(data.record);
-      setLoading(false);
-    }
-    catch (error) {
-      setLoading(false);
-    }
-  };
+
   return (
     <div>
       {loading ? (

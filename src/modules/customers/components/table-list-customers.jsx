@@ -10,26 +10,27 @@ export const TableListCustomers = () => {
   const [loading, setLoading] = useState(false);
   const [listCustomers, setListCustomers] = useState([]);
   const [page, setPage] = useState(1);
-  const getDataCustomers = async () => {
-    setLoading(true);
-    const stringified = queryString.stringify({ limit: LIMIT_CUSTOMERS, page });
-    const apiCustomers = `${REACT_APP_API_SERVER_CUSTOMERS}?${stringified}`;
-    try {
-      const respon = await apiGet(apiCustomers);
-      const { data } = respon.data;
-      const { totalDoc } = data;
-      const convertData = data.record.map(item => {
-        return { ...item, index: data.startIndex++ };
-      });
-      const totalPage = Math.ceil(totalDoc / LIMIT_CUSTOMERS);
-      setListCustomers({ data: convertData, totalPage });
-      setLoading(false);
-    }
-    catch (error) {
-      setLoading(false);
-    }
-  };
+
   useEffect(() => {
+    const getDataCustomers = async () => {
+      setLoading(true);
+      const stringified = queryString.stringify({ limit: LIMIT_CUSTOMERS, page });
+      const apiCustomers = `${REACT_APP_API_SERVER_CUSTOMERS}?${stringified}`;
+      try {
+        const respon = await apiGet(apiCustomers);
+        const { data } = respon.data;
+        const { totalDoc } = data;
+        const convertData = data.record.map(item => {
+          return { ...item, index: data.startIndex++ };
+        });
+        const totalPage = Math.ceil(totalDoc / LIMIT_CUSTOMERS);
+        setListCustomers({ data: convertData, totalPage });
+        setLoading(false);
+      }
+      catch (error) {
+        setLoading(false);
+      }
+    };
     getDataCustomers();
   }, [page]);
   const handleChangePage = e => {

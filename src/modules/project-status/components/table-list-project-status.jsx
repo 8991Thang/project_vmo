@@ -10,26 +10,27 @@ export const TableProjectStatus = () => {
   const [loading, setLoading] = useState(false);
   const [listProjectStatus, setListProjectStatus] = useState([]);
   const [page, setPage] = useState(1);
-  const getDataProjectStatus = async () => {
-    setLoading(true);
-    const stringified = queryString.stringify({ limit: LIMIT_PROJECT_STATUS, page });
-    const apiProjectStatus = REACT_APP_API_SERVER_PROJECT_STATUS + "?" + stringified;
-    try {
-      const respon = await apiGet(apiProjectStatus);
-      const { data } = respon.data;
-      const { totalDoc } = data;
-      const convertData = data.record.map(item => {
-        return { ...item, index: data.startIndex++ };
-      });
-      const totalPage = Math.ceil(totalDoc / LIMIT_PROJECT_STATUS);
-      setListProjectStatus({ data: convertData, totalPage });
-      setLoading(false);
-    }
-    catch (error) {
-      setLoading(false);
-    }
-  };
+
   useEffect(() => {
+    const getDataProjectStatus = async () => {
+      setLoading(true);
+      const stringified = queryString.stringify({ limit: LIMIT_PROJECT_STATUS, page });
+      const apiProjectStatus = REACT_APP_API_SERVER_PROJECT_STATUS + "?" + stringified;
+      try {
+        const respon = await apiGet(apiProjectStatus);
+        const { data } = respon.data;
+        const { totalDoc } = data;
+        const convertData = data.record.map(item => {
+          return { ...item, index: data.startIndex++ };
+        });
+        const totalPage = Math.ceil(totalDoc / LIMIT_PROJECT_STATUS);
+        setListProjectStatus({ data: convertData, totalPage });
+        setLoading(false);
+      }
+      catch (error) {
+        setLoading(false);
+      }
+    };
     getDataProjectStatus();
   }, [page]);
   const handlePageChange = e => {

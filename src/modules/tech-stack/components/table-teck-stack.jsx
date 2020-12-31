@@ -10,26 +10,27 @@ export const TableTechStack = () => {
   const [loading, setLoading] = useState(false);
   const [listTeckStack, setListTechStack] = useState([]);
   const [page, setPage] = useState(1);
-  const getDataTechStack = async () => {
-    setLoading(true);
-    const stringified = queryString.stringify({ limit: LIMIT_TECH_STACK, page });
-    const apiProjectStatus = REACT_APP_API_SERVER_TECH_STACK + "?" + stringified;
-    try {
-      const respon = await apiGet(apiProjectStatus);
-      const { data } = respon.data;
-      const { totalDoc } = data;
-      const convertData = data.record.map(item => {
-        return { ...item, index: data.startIndex++ };
-      });
-      const totalPage = Math.ceil(totalDoc / LIMIT_TECH_STACK);
-      setListTechStack({ data: convertData, totalPage });
-      setLoading(false);
-    }
-    catch (error) {
-      setLoading(false);
-    }
-  };
+
   useEffect(() => {
+    const getDataTechStack = async () => {
+      setLoading(true);
+      const stringified = queryString.stringify({ limit: LIMIT_TECH_STACK, page });
+      const apiProjectStatus = `${REACT_APP_API_SERVER_TECH_STACK}?${stringified}`;
+      try {
+        const respon = await apiGet(apiProjectStatus);
+        const { data } = respon.data;
+        const { totalDoc } = data;
+        const convertData = data.record.map(item => {
+          return { ...item, index: data.startIndex++ };
+        });
+        const totalPage = Math.ceil(totalDoc / LIMIT_TECH_STACK);
+        setListTechStack({ data: convertData, totalPage });
+        setLoading(false);
+      }
+      catch (error) {
+        setLoading(false);
+      }
+    };
     getDataTechStack();
   }, [page]);
   const handleChangePage = e => {

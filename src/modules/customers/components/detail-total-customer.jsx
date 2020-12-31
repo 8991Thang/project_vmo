@@ -12,21 +12,22 @@ export const DetailsCustomer = () => {
   const [update, setUpdate] = useState(false);
   const params = useParams();
   useEffect(() => {
+    const getDataDetailsCustomer = async () => {
+      setLoading(true);
+      const apiCustomer = `${REACT_APP_API_SERVER_CUSTOMERS}/${params.id}`;
+      try {
+        const respon = await apiGet(apiCustomer);
+        const { data } = respon.data;
+        setDataDetailsCustomers(data);
+        setLoading(false);
+      }
+      catch (error) {
+        setLoading(false);
+      }
+    };
     getDataDetailsCustomer();
   }, [update]);
-  const getDataDetailsCustomer = async () => {
-    setLoading(true);
-    const apiCustomer = `${REACT_APP_API_SERVER_CUSTOMERS}/${params.id}`;
-    try {
-      const respon = await apiGet(apiCustomer);
-      const { data } = respon.data;
-      setDataDetailsCustomers(data);
-      setLoading(false);
-    }
-    catch (error) {
-      setLoading(false);
-    }
-  };
+
   return (
     <div>
       <div>

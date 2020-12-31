@@ -12,21 +12,22 @@ export const DetailsProjectType = () => {
   const [detailsProjectType, setDataDetailsProjectType] = useState([]);
   const params = useParams();
   useEffect(() => {
+    const getDataDetailsProjectType = async () => {
+      setLoading(true);
+      const apiProjectType = `${REACT_APP_API_SERVER_PROJECT_TYPE}/${params.id}`;
+      try {
+        const respon = await apiGet(apiProjectType);
+        const { data } = respon.data;
+        setDataDetailsProjectType(data.record);
+        setLoading(false);
+      }
+      catch (error) {
+        setLoading(false);
+      }
+    };
     getDataDetailsProjectType();
   }, [isEditingDone]);
-  const getDataDetailsProjectType = async () => {
-    setLoading(true);
-    const apiProjectType = `${REACT_APP_API_SERVER_PROJECT_TYPE}/${params.id}`;
-    try {
-      const respon = await apiGet(apiProjectType);
-      const { data } = respon.data;
-      setDataDetailsProjectType(data.record);
-      setLoading(false);
-    }
-    catch (error) {
-      setLoading(false);
-    }
-  };
+
   return (
     <div>
       {loading ? (
